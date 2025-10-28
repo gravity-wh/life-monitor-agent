@@ -1,5 +1,7 @@
 import time
+import sys, os
 import yaml
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
 from life_monitor.detector import Detector
 from life_monitor.actions import ActionRunner
 

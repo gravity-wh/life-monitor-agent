@@ -1,0 +1,20 @@
+syntax = "proto3";
+package life_monitor;
+
+message ImageObservation { string activity = 1; float confidence = 2; }
+message AudioObservation { string transcript = 1; bool guitar_detected = 2; float speech_confidence = 3; }
+message WearableObservation { int32 heart_rate = 1; int32 steps = 2; float stress = 3; }
+message PCObservation { string active_app = 1; string active_window = 2; }
+message KeyValue { map<string,string> fields = 1; }
+message Observation {
+  string source_id = 1;
+  int64 ts_ms = 2;
+  string schema = 3;
+  oneof payload {
+    ImageObservation image = 10;
+    AudioObservation audio = 11;
+    WearableObservation wearable = 12;
+    PCObservation pc = 13;
+    KeyValue kv = 14;
+  }
+}

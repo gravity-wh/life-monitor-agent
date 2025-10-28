@@ -51,3 +51,17 @@ states:
 - [x] Add config + action runner + detector skeleton
 - [x] Local git init and first commit
 - [ ] Push to GitHub (needs your remote URL)
+
+## Multi-Pi scaffold (Detection → Inference → Analysis)
+- Roles (per Pi): camera (OpenCV image), audio (mic speech/guitar), wearable (watch/health), pc (desktop context), hub (central agent + web).
+- How to run: set env PYTHONPATH=src and LIFE_MONITOR_ROLE, then run `python -m life_monitor.node`; messaging uses MQTT on observations/{source_id} (set MQTT_HOST/MQTT_PORT as needed).
+- Code map: detection in `src\\life_monitor\\detectors\\`, inference in `src\\life_monitor\\inference\\central_agent.py`, bus in `src\\life_monitor\\bus\\mqtt_bus.py`, web in `src\\life_monitor\\web\\server.py`.
+- Next steps: implement MQTT pub/sub, flesh out detectors, connect hub to ActionRunner for recommendations, build FastAPI UI to summarize daily activity.
+
+## Unified Perception Interface
+- Data flow: [Sensor Adapter] -> [Serializer (Proto/JSON)] -> MQTT topic observations\{source_id} -> [Central Agent].
+- Add sensor (<50 LOC):
+  1) Add message NewType in src\life_monitor\proto\observation.proto
+  2) protoc --python_out=. src\life_monitor\proto\observation.proto
+  3) Write NewAdapter -> publish to observations\{source_id}
+  4) Add case in CentralAgent.handlers dict
