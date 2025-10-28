@@ -1,0 +1,11 @@
+states:
+  guitar:
+    urls:
+      - https://www.ultimate-guitar.com/
+  reading:
+    urls:
+      - https://scholar.google.com/
+      - https://wikipedia.org/
+  coding:
+    commands:
+      - code .
